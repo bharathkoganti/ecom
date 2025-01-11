@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            background: linear-gradient(red, rgb(145, 140, 140));
+            background-repeat: no-repeat;
+            background-size: 100% 100vh;
+            padding: 20px;
+            margin-bottom: 15%;
+        }
+
+        .card-img-top {
+            margin-top: 1%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .sec1 {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <center style="color: bisque;">{{ messages|join(', ') }}</center>
+    {% endif %}
+    {% endwith %}
+
+    <section class="sec1">
+        <div class="container">
+            <div class="row">
+                {% for i in stored_itemdata %}
+                <div class="col-12 col-md-4 col-lg-3 mb-4">
+                    <div class="card" style="width: 100%;">
+                        <img src="/static/{{ i[2] }}" class="card-img-top" alt="Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ i[1] }}</h5>
+                            <h6 class="card-id">ID: {{ i[0] }}</h6>
+                            <div class="d-flex justify-content-between mt-3">
+                                <a href="{{url_for('viewitem',item_id=i[0])}}" class="btn btn-warning">View</a>
+                                <a href="{{url_for('updateitem',item_id=i[0])}}" class="btn btn-success">Update</a>
+                                <a href="{{url_for('delete_item',item_id=i[0])}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
